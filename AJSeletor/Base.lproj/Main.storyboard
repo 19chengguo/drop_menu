@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="AJSeletor" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="FUP-EJ-fcC">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SD7-sO-sqM">
+                                        <rect key="frame" x="0.0" y="10" width="75.5" height="30"/>
+                                        <state key="normal" title="区域"/>
+                                        <connections>
+                                            <action selector="selectorAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mm7-JK-s1Y"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gne-Bm-of4">
+                                        <rect key="frame" x="85.5" y="10" width="75.5" height="30"/>
+                                        <state key="normal" title="价格"/>
+                                        <connections>
+                                            <action selector="selectorAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="XpI-4x-HNL"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Afl-76-oSi">
+                                        <rect key="frame" x="171" y="10" width="75.5" height="30"/>
+                                        <state key="normal" title="户型"/>
+                                        <connections>
+                                            <action selector="selectorAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Vky-Vw-V7S"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dsG-ib-9RL">
+                                        <rect key="frame" x="256.5" y="10" width="118.5" height="30"/>
+                                        <state key="normal" title="更多"/>
+                                        <connections>
+                                            <action selector="selectorAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Rae-2S-de1"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="dNK-qE-JDm"/>
+                                </constraints>
+                            </stackView>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gce-q8-g2U">
+                                <rect key="frame" x="0.0" y="51" width="375" height="300"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="xfN-Lv-Y0I"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="FUP-EJ-fcC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="WQB-qi-Mp8"/>
+                            <constraint firstItem="gce-q8-g2U" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="gwS-LZ-ACC"/>
+                            <constraint firstItem="FUP-EJ-fcC" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="hKP-yH-MU1"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="FUP-EJ-fcC" secondAttribute="trailing" id="jtm-ck-SbP"/>
+                            <constraint firstItem="gce-q8-g2U" firstAttribute="top" secondItem="FUP-EJ-fcC" secondAttribute="bottom" constant="1" id="qrq-0H-S5U"/>
+                            <constraint firstAttribute="trailing" secondItem="gce-q8-g2U" secondAttribute="trailing" id="zPb-TP-J3v"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="ModalViewHeight" destination="xfN-Lv-Y0I" id="bau-mQ-ySO"/>
+                        <outlet property="modelView" destination="gce-q8-g2U" id="1yA-AJ-T7C"/>
+                        <outlet property="navBar" destination="FUP-EJ-fcC" id="8wj-xK-VZr"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="130.40000000000001" y="138.0809595202399"/>
+        </scene>
+    </scenes>
+</document>
