@@ -19,12 +19,13 @@ class ViewController: UIViewController{
     
     var isShowModel : Bool = false
     var isClickMenu: Bool = false
+    var isRepeatChoose: Int = 0
     
     let leftCell = "left_cell";
     let rightCell = "right_cell"
     
-    let leftArrys = [""];
-    var rightArrys = [""]
+    var rightArrys = [Items]();
+    
     
     var modelArrys = [AJModel]()
     
@@ -64,23 +65,32 @@ class ViewController: UIViewController{
     @objc func showModel(){
         self.isShowModel = !self.isShowModel
         self.isClickMenu = !self.isClickMenu
+        self.isRepeatChoose = 0
+        self.modelArrys.removeAll()
+        self.rightArrys.removeAll()
         UIView.animate(withDuration: 0.2) {
             () in
             self.ModalViewHeight.constant = 1
             self.leftTableView.isHidden = true;
             self.rightTableView.isHidden = true;
-            self.modelArrys.removeAll()
             self.view.setNeedsLayout()
-             self.view.layoutIfNeeded()
+            self.view.layoutIfNeeded()
         }
     }
     
     
     func loadJiaData(){
         for i in 0..<2{
-            let model = AJModel(title: "left\(i)", subArrys: ["\(i)-\(i)","\(i)-\(i)","\(i)-\(i)"])
+            let model = AJModel(title: "left", subItems: [
+            Items.init(isChecked: false, subTitle: "left - \(i)"),
+            Items.init(isChecked: false, subTitle: "left - \(i)"),
+            Items.init(isChecked: false, subTitle: "left - \(i)"),
+            ], isSelected: false)
+            
             self.modelArrys.append(model)
         }
+        
+        print(self.modelArrys)
     }
     
 
@@ -88,6 +98,11 @@ class ViewController: UIViewController{
 
     @IBAction func selectorAction(_ sender: UIButton) {
         
+        if self.isShowModel && self.isRepeatChoose == sender.tag {
+            print("重复选择开始关闭")
+            showModel()
+            return
+        }
         
         //如果已经打开model，进行menu切换操作
         if self.isClickMenu {
@@ -109,7 +124,8 @@ class ViewController: UIViewController{
     func switchByType(_ type: Int){
         
         let tag = type
-        
+        self.isRepeatChoose = tag
+
         switch tag {
         case 1:
             loadOne()
@@ -138,9 +154,9 @@ class ViewController: UIViewController{
                 
                 self.loadJiaData()
 
-                
-                let model = self.modelArrys[0]
-                self.rightArrys = model.subArrys
+                //拿到ajmodel 子属性
+                let model = self.modelArrys[0].subItems
+                self.rightArrys = model
                 
                 self.leftTableView.reloadData();
                 self.rightTableView.reloadData()
@@ -158,10 +174,25 @@ class ViewController: UIViewController{
                 self.rightTableView.isHidden = false;
                 self.leftTableView.isHidden = false;
                 self.ModalViewHeight.constant = self.view.frame.size.height
+
                 
-                self.modelArrys = [AJModel.init(title: "单价", subArrys: ["12","333","444"]),AJModel.init(title: "不限", subArrys: ["56757","56","345"])]
-                let model = self.modelArrys[0]
-                self.rightArrys = model.subArrys
+                let tempStrs = ["单价","不限"];
+                var index = 0
+                var tempModelArry = [AJModel]()
+                for i in tempStrs{
+                    let model = AJModel(title: i, subItems: [
+                    Items.init(isChecked: false, subTitle: "right - \(index)"),
+                    Items.init(isChecked: false, subTitle: "right - \(index)"),
+                    Items.init(isChecked: false, subTitle: "right - \(index)"),
+                    ], isSelected: false)
+                    
+                    index += 1
+                    tempModelArry.append(model)
+                }
+                
+                self.modelArrys = tempModelArry
+                let model = self.modelArrys[0].subItems
+                self.rightArrys = model
                 
                 self.leftTableView.reloadData();
                 self.rightTableView.reloadData()
@@ -177,15 +208,23 @@ class ViewController: UIViewController{
             UIView.animate(withDuration: 0.2) {
                 () in
                 self.leftTableView.isHidden = false;
-                self.rightTableView.isHidden = true;
-                
+                self.rightTableView.isHidden = true
                 self.ModalViewHeight.constant = self.view.frame.size.height
                 
                 self.leftTableView.frame = CGRect.init(x: 0, y: 0, width: self.modelView.frame.width, height: 300)
+                                
+                let tempStrs = ["户型1","户型2"];
+                var index = 0
+                var tempModelArry = [AJModel]()
+                for i in tempStrs{
+                    let model = AJModel.init(title: i, subItems: [], isSelected: false)
+                    index += 1
+                    tempModelArry.append(model)
+                }
+                self.modelArrys = tempModelArry
+                   
                 
-                self.modelArrys = [AJModel.init(title: "户型1", subArrys: []),AJModel.init(title: "户型2", subArrys: [])]
                 self.leftTableView.reloadData()
-                
                 self.view.setNeedsLayout()
                 self.view.layoutIfNeeded()
             }
@@ -202,9 +241,9 @@ extension ViewController:UITableViewDataSource,UITableViewDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if tableView == self.leftTableView {
-            return modelArrys.count
+            return  self.leftTableView.isHidden == false ? modelArrys.count : 0
         }else{
-            return self.rightArrys.count
+            return self.rightTableView.isHidden == false ? self.rightArrys.count  : 0
         }
         
     }
@@ -213,29 +252,62 @@ extension ViewController:UITableViewDataSource,UITableViewDelegate{
         if tableView == self.leftTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: leftCell, for: indexPath)
             let model = self.modelArrys[indexPath.row]
+            
+            if model.isSelected {
+                cell.textLabel?.textColor = UIColor.lightGray;
+            }
+            
             cell.textLabel?.text = model.title
             return cell
         }
         else{
             let cell = tableView.dequeueReusableCell(withIdentifier: rightCell, for: indexPath)
-            cell.textLabel?.text = rightArrys[indexPath.row]
+            
+            
+            let model  = self.rightArrys[indexPath.row];
+            
+            if model.isChecked {
+                cell.textLabel?.textColor = UIColor.red;
+            }else{
+                cell.textLabel?.textColor = UIColor.black
+            }
+            
+            
+            cell.textLabel?.text = model.subTitle
+            
+            
             return cell
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
- 
         
         
+        //针对户型
+        if tableView == self.leftTableView && self.rightTableView.isHidden {
+            print("left 选取单个",indexPath.row)
+            
+            return
+        }
+        //两栏事件
         if tableView == self.leftTableView{
             let model = self.modelArrys[indexPath.row]
-             let rightDatas = model.subArrys
+            let rightDatas = model.subItems
             self.rightArrys = rightDatas
             let sectionIndex = IndexSet(integer: indexPath.section)
             self.rightTableView.reloadSections(sectionIndex, with: .none)
-            print("刷新单left")
+            print("刷新单left",indexPath)
         }else{
-            print("这是右边",indexPath.row)
+            
+            var model = self.rightArrys[indexPath.row]
+            model.isChecked = !model.isChecked
+            
+            
+            self.rightArrys[indexPath.row] = model
+            
+            self.rightTableView.reloadRows(at: [indexPath], with: .none)
+            
+            print("这是右边",self.rightArrys[indexPath.row])
             
         }
     }

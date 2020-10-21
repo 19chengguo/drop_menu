@@ -10,5 +10,13 @@ import Foundation
 
 struct AJModel {
     var title:String
-    var subArrys:[String]
+    var subItems:[Items]
+    var isSelected: Bool
+}
+
+
+struct Items{
+    var isChecked:Bool
+    var subTitle: String
+    
 }
